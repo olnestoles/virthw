@@ -1,0 +1,51 @@
+NDK=/PATH/TO/NDK
+CC=$(NDK)/toolchains/x86-4.8/prebuilt/linux-x86_64/bin/i686-linux-android-gcc
+INCLUDE=  -I$(NDK)/platforms/android-19/arch-x86/usr/include
+SYSROOT=--sysroot=$(NDK)/platforms/android-19/arch-x86/
+
+FLAGS= -O0 -g -fPIE -pie $(INCLUDE)
+
+build: compile
+	$(CC) $(FLAGS) $(SYSROOT) -fPIE -pie -o virt_hw gsm.o sms.o sim_card.o remote_call.o \
+	sysdeps_posix.o modem_driver.o android_modem.o virt_hw.o \
+	console.o stralloc.o gps_client.o -lc -llog
+
+compile: stralloc.o \
+	gsm.o \
+	sms.o \
+	sim_card.o \
+	remote_call.o \
+	sysdeps_posix.o \
+	modem_driver.o \
+	android_modem.o \
+	virt_hw.o \
+	console.o \
+	gps_client.o
+	echo "COMPILE DONE"
+
+virt_hw.o:
+	$(CC) $(FLAGS) -c virt_hw.c
+gsm.o:
+	$(CC) $(FLAGS) -c gsm.c
+sms.o:
+	$(CC) $(FLAGS) -c sms.c
+sim_card.o:
+	$(CC) $(FLAGS) -c sim_card.c
+remote_call.o:
+	$(CC) $(FLAGS) -c remote_call.c
+sysdeps_posix.o:
+	$(CC) $(FLAGS) -c sysdeps_posix.c
+modem_driver.o:
+	$(CC) $(FLAGS) -c modem_driver.c
+android_modem.o:
+	$(CC) $(FLAGS) -c android_modem.c
+console.o:
+	$(CC) $(FLAGS) -c console.c
+stralloc.o:
+	$(CC) $(FLAGS) -c stralloc.c
+gps_client.o:
+	$(CC) $(FLAGS) -c gps_client.c
+
+clean:
+	- rm *.o
+	- rm modem
