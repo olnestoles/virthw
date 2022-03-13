@@ -10,7 +10,7 @@ Based on Google Sdk qemu. VirtHw run as user space Android service-daemon. It co
 # Usage
 Control socket 5545 are available via telnet
 
-gsm call NUM - external call
-sms send NUM TEXT - send sms
-geo fix ALT LAT - set gps coord.
+ 1. gsm call NUM - external call
+ 2. sms send NUM TEXT - send sms
+ 3. geo fix ALT LAT - set gps coord
 
